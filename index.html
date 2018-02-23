@@ -5,13 +5,17 @@
         <script type="text/javascript" src='scripts/library.js'> </script>
     </head>
     <body>
-        <table class="library">
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Number of Pages</th>
-                <th>Read?</th>
-            </tr>
+        <table id="library">
+            <thead>
+                <tr id='table-heading'>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Number of Pages</th>
+                    <th>Read?</th>
+                </tr>
+            </thead>
+            <tbody id="library-books">
+            </tbody>
         </table>
         <script>loadTable();</script>
         <script>buildForm();</script>

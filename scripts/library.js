@@ -6,12 +6,13 @@ function Book(title, author, numPages, read) {
   this.author = author;
   this.numPages = numPages;
   this.read = read;
-  
-  if (this.read) {
-    this.readMsg = 'has been read';
-  } else {
-    this.readMsg = 'has not been read';
-  }
+  this.readMsg = function() {
+    if (this.read) {
+    return 'has been read';
+    } else {
+    return 'has not been read';
+    }
+  };
 }
 
 var book1 = new Book('Some title', 'Some Author', 255, false);
@@ -116,15 +117,37 @@ function loadTable() {
     var table = document.querySelector('#library-books');
     var tr = document.createElement("tr");
     var curRow = table.appendChild(tr);
+    var removeLink = document.createElement("a");
+    var toggleRead = document.createElement("a");
+    
+    removeLink.href = "#";
+    removeLink.innerHTML = "Remove book";
+    
+    removeLink.addEventListener("click", function(e){
+      e.preventDefault();
+      var targetBook = e.target.parentElement.parentElement.getAttribute("data-id");
+      myLibrary = myLibrary.filter(function(book){
+        return book != myLibrary[targetBook];
+      });
+      loadTable();
+    });
+    
+    toggleRead.href = "#";
+    toggleRead.innerHTML = curBook.read == false ? "Mark read" : null;
+    toggleRead.addEventListener("click", function(e){
+      e.preventDefault();
+      var targetBook = e.target.parentElement.parentElement.getAttribute("data-id");
+      myLibrary[targetBook].read = true;
+      loadTable();
+    });
     
     curRow.setAttribute("data-id", i);
     curRow.insertCell(0).innerHTML = curBook.title;
     curRow.insertCell(1).innerHTML = curBook.author;
     curRow.insertCell(2).innerHTML = curBook.numPages;
-    curRow.insertCell(3).innerHTML = curBook.readMsg;
-    curRow.insertCell(4).innerHTML = "<a href='#'>Remove Book</a>";
-    
-    //curRow
+    curRow.insertCell(3).innerHTML = curBook.readMsg();
+    curRow.insertCell(4).appendChild(toggleRead);
+    curRow.insertCell(5).appendChild(removeLink);
     
     console.log('Library loaded');
   }
